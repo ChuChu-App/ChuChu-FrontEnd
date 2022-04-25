@@ -1,0 +1,17 @@
+name: Send Slack message
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  slack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send slack message
+        uses: ChuChu-App/ChuChu-FrontEnd@master
+        with:
+          args: slack
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          SLACK_MESSAGE: 🎉 ChuChu-FrontEnd Push 🎉
