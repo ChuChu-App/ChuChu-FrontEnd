@@ -1,15 +1,19 @@
 name: Send Slack message
 
 on:
-  pull_request:
+  push:
     branches: [master]
+    paths-ignore:
+      - '.gitignore'
+      - '.dockerignore'
+      - 'README.md'
 
 jobs:
   slack:
     runs-on: ubuntu-latest
     steps:
       - name: Send slack message
-        uses: ChuChu-App/ChuChu-FrontEnd@master
+        uses: dev-chulbuji/devops_custom_actions@master
         with:
           args: slack
         env:

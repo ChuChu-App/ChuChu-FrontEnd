@@ -105,7 +105,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 					</SubMenu>
 					<Menu.Item
 						key="7"
-						onClick={() => router.push('/rooms')}
+						onClick={() => router.push('/chat')}
 						icon={<CommentOutlined />}
 					>
 						채팅
