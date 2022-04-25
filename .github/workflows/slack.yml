@@ -14,4 +14,4 @@ jobs:
           args: slack
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-          SLACK_MESSAGE: 🎉 ChuChu-FrontEnd Push 🎉
+          SLACK_MESSAGE: 🎉 ChuChu-FrontEnd Push Message - ${{github.event.head_commit.message}} 🎉
