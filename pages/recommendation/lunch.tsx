@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function lunck() {
-	return <div>lunck</div>;
+export default function lunch() {
+	return <div>lunch🍿🍟🌭🍕🍔</div>;
 }

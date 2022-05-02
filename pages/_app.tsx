@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/globals.css';
-import { Layout, Menu, Breadcrumb, BackTop, Alert } from 'antd';
-import axios from 'axios';
+import { Layout, Menu, BackTop, MenuProps } from 'antd';
 import {
 	CoffeeOutlined,
 	LoginOutlined,
@@ -17,16 +16,56 @@ import {
 } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { AppProps } from 'next/app';
+import Head from 'next/head';
 
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Header, Content, Sider } = Layout;
+
+type MenuItem = Required<MenuProps>['items'][number];
+
+function getItem(
+	label: React.ReactNode,
+	key: React.Key,
+	icon?: React.ReactNode,
+	children?: MenuItem[],
+	onClick?: void,
+	type?: 'group',
+): MenuItem {
+	return {
+		key,
+		icon,
+		children,
+		label,
+		onClick,
+		type,
+	} as MenuItem;
+}
+
+const items: MenuItem[] = [
+	getItem('Home', '/', <HomeOutlined />),
+	getItem('Login', '/login', <LoginOutlined />),
+	getItem('Profile', '/profile', <ProfileOutlined />),
+
+	getItem('음식추천', 'sub1', <FireOutlined />, [
+		getItem('간식', '/recommendation/snack', <CrownOutlined />),
+		getItem('아침', '/recommendation/breakfast', <BulbOutlined />),
+		getItem('점심', '/recommendation/lunch', <MehOutlined />),
+		getItem('저녁', '/recommendation/dinner', <HistoryOutlined />),
+		getItem('야식', '/recommendation/MidnightSnack', <DingtalkOutlined />),
+		getItem('후식', '/recommendation/dessert', <CoffeeOutlined />),
+	]),
+
+	getItem('채팅', '/chat', <CommentOutlined />),
+];
 
 function MyApp({ Component, pageProps }: AppProps) {
-	const router = useRouter();
 	const [collapsed, setCollapsed] = useState<boolean>(true);
+	const router = useRouter();
 	const onCollapse = (collapse: boolean) => {
 		setCollapsed(collapse);
 		console.log(collapse);
+	};
+	const onClick: MenuProps['onClick'] = (e) => {
+		router.push(e.key);
 	};
 	return (
 		<Layout style={{ minHeight: '100vh' }}>
@@ -36,81 +75,18 @@ function MyApp({ Component, pageProps }: AppProps) {
 				collapsedWidth={30}
 				onCollapse={onCollapse}
 			>
+				<Head>
+					<title>ChuChu</title>
+				</Head>
 				<div className="logo" />
-				<Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-					<Menu.Item
-						key="1"
-						icon={<HomeOutlined />}
-						onClick={() => router.push('/')}
-					>
-						Home
-					</Menu.Item>
-					<Menu.Item
-						key="2"
-						icon={<LoginOutlined />}
-						onClick={() => router.push('/login')}
-					>
-						Login
-					</Menu.Item>
-					<Menu.Item
-						key="3"
-						icon={<ProfileOutlined />}
-						onClick={() => router.push('/profile')}
-					>
-						프로필
-					</Menu.Item>
-					<SubMenu key="sub1" icon={<FireOutlined />} title="음식추천">
-						<Menu.Item
-							key="4"
-							onClick={() => router.push('/recommendation/snack')}
-							icon={<CrownOutlined />}
-						>
-							간식
-						</Menu.Item>
-						<Menu.Item
-							key="5"
-							onClick={() => router.push('/recommendation/breakfast')}
-							icon={<BulbOutlined />}
-						>
-							아침
-						</Menu.Item>
-						<Menu.Item
-							key="6"
-							onClick={() => router.push('/recommendation/lunch')}
-							icon={<MehOutlined />}
-						>
-							점심
-						</Menu.Item>
-						<Menu.Item
-							key="6"
-							onClick={() => router.push('/recommendation/dinner')}
-							icon={<HistoryOutlined />}
-						>
-							저녁
-						</Menu.Item>
-						<Menu.Item
-							key="7"
-							onClick={() => router.push('/recommendation/MidnightSnack')}
-							icon={<DingtalkOutlined />}
-						>
-							야식
-						</Menu.Item>
-						<Menu.Item
-							key="8"
-							onClick={() => router.push('/recommendation/dessert')}
-							icon={<CoffeeOutlined />}
-						>
-							후식
-						</Menu.Item>
-					</SubMenu>
-					<Menu.Item
-						key="7"
-						onClick={() => router.push('/chat')}
-						icon={<CommentOutlined />}
-					>
-						채팅
-					</Menu.Item>
-				</Menu>
+				<Menu
+					theme="dark"
+					defaultSelectedKeys={['1']}
+					defaultOpenKeys={['sub1']}
+					mode="inline"
+					onClick={onClick}
+					items={items}
+				></Menu>
 			</Sider>
 			<Layout className="site-layout">
 				<Header className="site-layout-background" style={{ padding: 0 }} />
