@@ -6,3 +6,5 @@
 
 Next.js 로 진행  
 Vercel 호스팅 지원
+어떤식으로 디자인할지 생각해야하고 components로 쪼개서 나눠야한다.  
+sass로 할지, emotion을 사용할지 고민중...

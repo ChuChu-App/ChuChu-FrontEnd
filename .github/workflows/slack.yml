@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send slack message
-        uses: dev-chulbuji/devops_custom_actions@master
+        uses: gwemin/DevOps_Code_Collection/CI-CD/GithubActions/slack@master
         with:
           args: slack
         env:
